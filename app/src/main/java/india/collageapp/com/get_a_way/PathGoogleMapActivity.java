@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import android.Manifest;
 
 /**
  * Created by sai on 10-03-2016.
@@ -57,6 +59,8 @@ public class PathGoogleMapActivity extends FragmentActivity implements
     double current_longitude ;
     String waypoints_ ;
     private int got_places_flag = 0;
+    private static final int PERMISSION_REQUEST_CODE = 1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -74,11 +78,11 @@ public class PathGoogleMapActivity extends FragmentActivity implements
 
 
         Bundle bundle = getIntent().getExtras();
-        selectedPlaces_id = (ArrayList<String>)bundle.getSerializable("selectedPlaces_id");
+     //   selectedPlaces_id = (ArrayList<String>)bundle.getSerializable("selectedPlaces_id");
         waypoints_ = (String)bundle.getSerializable("waypoints");
 
         Log.e("waypoints: " , waypoints_);
-
+/*
          Log.e("sel places : ", selectedPlaces_id.toString());
         if(selectedPlaces_id != null)
         {
@@ -93,7 +97,7 @@ public class PathGoogleMapActivity extends FragmentActivity implements
             }
         }
 
-
+*/
 
         GPSTracker gps = new GPSTracker(this);
         if(gps.canGetLocation())
@@ -140,13 +144,13 @@ public class PathGoogleMapActivity extends FragmentActivity implements
             final Place place = places.get(0);
             //CharSequence attributions = places.getAttributions();
 
-            selectedPlaces.add(place);
+       //     selectedPlaces.add(place);
             Log.e("place name : ", place.getAddress() + "");
 
             addMarkers(mMap,place);
 
             places.release();
-            Log.e("sel len : ", selectedPlaces.size() + "");
+         //   Log.e("sel len : ", selectedPlaces.size() + "");
 
             got_places_flag =1;
 
@@ -172,12 +176,29 @@ public class PathGoogleMapActivity extends FragmentActivity implements
     }
 
     private void setUpMap() {
-        // mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        /*
         if ( ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
 
-            //ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},LocationService.MY_PERMISSION_ACCESS_COURSE_LOCATION);
+   //         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, LocationService.MY_PERMISSION_ACCESS_COURSE_LOCATION);
             // namesake check for permission works without this (used to simply remove syntax errors)
+        }*/
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Check Permissions Now
+/*            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    2);*/
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+
+                Toast.makeText(this,"GPS permission allows us to access location data. Please allow in App Settings for additional functionality.",Toast.LENGTH_LONG).show();
+
+            } else {
+
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},PERMISSION_REQUEST_CODE);
+            }
         }
+
         mMap.setMyLocationEnabled(true);
 
     }

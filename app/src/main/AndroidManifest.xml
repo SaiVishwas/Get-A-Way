@@ -5,7 +5,6 @@
         android:name="com.truiton.placeapiautocomplete.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.truiton.placeapiautocomplete.permission.MAPS_RECEIVE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -27,7 +26,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBUs-85Cmux41NRycJXGufJLkYWeQ20XKo"/>
+            android:value="AIzaSyCmFHV-bPjsVKSe0xaRPwwFSVBCmQGJPLo"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
