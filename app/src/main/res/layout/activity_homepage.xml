@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:id="@+id/rel"
     android:padding="10dp"
-    android:background="@color/bluey">
+    android:background="#da3b3b">
 
     <ImageView
         android:src="@drawable/pic"
