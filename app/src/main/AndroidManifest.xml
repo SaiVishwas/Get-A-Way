@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="india.collageapp.com.get_a_way" >
+    package="india.collageapp.com.get_a_way">
+
     <permission
         android:name="com.truiton.placeapiautocomplete.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.truiton.placeapiautocomplete.permission.MAPS_RECEIVE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -22,75 +23,74 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCmFHV-bPjsVKSe0xaRPwwFSVBCmQGJPLo"/>
-
+            android:value="AIzaSyCmFHV-bPjsVKSe0xaRPwwFSVBCmQGJPLo" />
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.Black.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme" >
-        </activity>
-
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SignupActivity"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:theme="@style/AppTheme" />
 
         <intent-filter>
             <action android:name="india.collageapp.com.get_a_way.MainActivity" />
+
             <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
 
         <activity
             android:name=".dashboard"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <intent-filter>
             <action android:name="india.collageapp.com.get_a_way.dashboard" />
+
             <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
 
         <activity
             android:name=".HomePage"
             android:label="@string/title_activity_homepage"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <intent-filter>
             <action android:name="india.collageapp.com.get_a_way.homepage" />
+
             <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
 
         <activity
             android:name=".MainMaps"
-            android:label="MainMaps" >
-        </activity>
+            android:label="MainMaps" />
+
         <intent-filter>
             <action android:name="india.collageapp.com.get_a_way.MainMaps" />
+
             <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
 
-        <activity
-            android:name=".PathGoogleMapActivity" >
-        </activity>
-
+        <activity android:name=".PathGoogleMapActivity" />
+        <activity android:name=".PlaceDetailsActivity" />
+        <activity android:name=".ChatBot" />
+        <activity android:name=".ChatBotMaps"></activity>
     </application>
 
 </manifest>

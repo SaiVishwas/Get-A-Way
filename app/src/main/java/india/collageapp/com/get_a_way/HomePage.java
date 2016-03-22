@@ -42,7 +42,7 @@ public class HomePage extends AppCompatActivity {
         btn_chatbot.setOnClickListener(new View.OnClickListener() {
                                           @Override
                                           public void onClick(View v) {
-                                              Intent intent = new Intent(HomePage.this,dashboard.class);
+                                              Intent intent = new Intent(HomePage.this,ChatBot.class);
                                               startActivity(intent);
                                           }
                                       }
