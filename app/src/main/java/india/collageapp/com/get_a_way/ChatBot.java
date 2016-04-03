@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,7 +33,7 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_bot);
-
+/*  // Lisa version
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         // Creating a criteria object to retrieve provider
         Criteria criteria = new Criteria();
@@ -44,10 +45,31 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
         }
         Location location = locationManager.getLastKnownLocation(provider);
 
+
         if (location != null) {
             onLocationChanged(location);
         }
         locationManager.requestLocationUpdates(provider, 20000, 0, this);
+*/
+
+        // My(Vishwas) version( changed only this part ) from here
+        GPSTracker gps = new GPSTracker(this);
+        if(gps.canGetLocation())
+        {
+            mLatitude = gps.getLatitude(); // returns latitude
+            mLongitude = gps.getLongitude(); // returns longitude
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + mLatitude + "\nLong: " + mLongitude, Toast.LENGTH_LONG).show();
+
+        }
+        else
+        {
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
+
+        // what I(vishwas) changed ends here
 
         TextView lat = (TextView)findViewById(R.id.lat);
         TextView lng = (TextView)findViewById(R.id.lng);
