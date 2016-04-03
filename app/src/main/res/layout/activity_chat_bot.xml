@@ -13,21 +13,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/lng"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/lat"
-        android:layout_alignStart="@+id/lat"
-        android:minWidth="200dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/lat"
-        android:layout_marginTop="173dp"
+        android:id="@+id/textView1"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:minWidth="200dp" />
+        android:layout_marginTop="133dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        android:minWidth="150dp"
+        android:enabled="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:id="@+id/button1"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp"
+        android:onClick="getReply"
+        android:enabled="false" />
 
 
 </RelativeLayout>
