@@ -36,6 +36,9 @@ import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.Set;
 
 
 public class MainMaps extends FragmentActivity implements
@@ -51,6 +54,7 @@ public class MainMaps extends FragmentActivity implements
     private LinearLayout container;
     private String textIn = "";
 
+    private Hashtable<String, String> places_dict = new Hashtable<String, String>();
     private PathGoogleMapActivity mPathGoogleMapActivity ;
 
     private ArrayList<Place> selectedPlaces = new ArrayList<Place>();
@@ -59,6 +63,7 @@ public class MainMaps extends FragmentActivity implements
 
     private int clear_flag = 0;
     String waypoints = "waypoints=optimize:true";
+    String places_list = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +88,7 @@ public class MainMaps extends FragmentActivity implements
 //Submit = (Button)loginDialog.findViewById(R.id.Submit);
 
 
-
+        Log.e(LOG_TAG, "entered on create");
         Button btn = (Button) findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
 
@@ -91,7 +96,18 @@ public class MainMaps extends FragmentActivity implements
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PathGoogleMapActivity.class);
            //     intent.putExtra("selectedPlaces_id", selectedPlaces);
+
+                // TODO : update waypoints here
+
+                for (String key : places_dict.keySet()) {
+
+                   // System.out.println("key: " + key + " value: " + places_dict.get(key));
+                   // waypoints = waypoints + "|" + place.getLatLng().latitude + "," + place.getLatLng().longitude ;
+                    waypoints = waypoints + "|" + places_dict.get(key) ;
+                    places_list = places_list + "|" + key ;
+                }
                 intent.putExtra("waypoints",waypoints);
+                intent.putExtra("places_list",places_list);
                 startActivity(intent);
             }
         });
@@ -112,7 +128,7 @@ public class MainMaps extends FragmentActivity implements
                     LayoutInflater layoutInflater =
                             (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     final View addView = layoutInflater.inflate(R.layout.row, null);
-                    TextView textOut = (TextView) addView.findViewById(R.id.textout);
+                    final TextView textOut = (TextView) addView.findViewById(R.id.textout);
                     textOut.setText(textIn);
                     Button buttonRemove = (Button) addView.findViewById(R.id.remove);
                     buttonRemove.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +136,10 @@ public class MainMaps extends FragmentActivity implements
                         @Override
                         public void onClick(View v) {
                             ((LinearLayout) addView.getParent()).removeView(addView);
+                            Log.e("Removed : ", textOut.getText() + "");
+                            places_dict.remove(textOut.getText()+"");
+                            Log.e("place dict" , places_dict.toString());
+
 
                         }
                     });
@@ -163,9 +183,9 @@ public class MainMaps extends FragmentActivity implements
 
 
             textIn = place.getName() + "";
-
+            places_dict.put(textIn,place.getLatLng().latitude + "," + place.getLatLng().longitude);
             selectedPlaces.add(place);
-            waypoints = waypoints + "|" + place.getLatLng().latitude + "," + place.getLatLng().longitude ;
+         //   waypoints = waypoints + "|" + place.getLatLng().latitude + "," + place.getLatLng().longitude ;
         }
     };
 

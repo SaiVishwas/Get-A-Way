@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import android.Manifest;
@@ -58,9 +59,9 @@ public class PathGoogleMapActivity extends FragmentActivity implements
     double current_latitude;
     double current_longitude ;
     String waypoints_ ;
+    String places_list ;
     private int got_places_flag = 0;
     private static final int PERMISSION_REQUEST_CODE = 1;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -80,8 +81,11 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         Bundle bundle = getIntent().getExtras();
      //   selectedPlaces_id = (ArrayList<String>)bundle.getSerializable("selectedPlaces_id");
         waypoints_ = (String)bundle.getSerializable("waypoints");
+        places_list = (String)bundle.getSerializable("places_list");
 
         Log.e("waypoints: " , waypoints_);
+
+        set_up_markers(waypoints_ , places_list);
 /*
          Log.e("sel places : ", selectedPlaces_id.toString());
         if(selectedPlaces_id != null)
@@ -127,6 +131,24 @@ public class PathGoogleMapActivity extends FragmentActivity implements
 
     }
 
+    private void set_up_markers(String places , String places_list)
+    {
+        String[] data = places.split("\\|");
+        String[] place_names = places_list.split("\\|");
+        //Log.e("list : " , Arrays.toString(data));
+        if(data.length > 1) {
+            for (int i = 1; i < data.length; ++i)
+            {
+                String[] lat_lng = data[i].split(",");
+
+                LatLng tmp = new LatLng(Double.parseDouble(lat_lng[0]),Double.parseDouble(lat_lng[1]) );
+
+                addMarkers(mMap,tmp,place_names[i]);
+
+            }
+        }
+
+    }
 
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
@@ -195,7 +217,7 @@ public class PathGoogleMapActivity extends FragmentActivity implements
 
             } else {
 
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},PERMISSION_REQUEST_CODE);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
             }
         }
 
@@ -228,7 +250,7 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         String output = "json";
         String url = "https://maps.googleapis.com/maps/api/directions/"
                 + output + "?" + params;
-        Log.e("url : " , url);
+        Log.e("url : ", url);
         return url;
     }
 
@@ -236,6 +258,14 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         if (mMap != null) {
             mMap.addMarker(new MarkerOptions().position(place.getLatLng())
                     .title(place.getName()+""));
+
+        }
+    }
+
+    private void addMarkers(GoogleMap mMap, LatLng latlng , String name) {
+        if (mMap != null) {
+            mMap.addMarker(new MarkerOptions().position(latlng)
+                    .title(name));
 
         }
     }
