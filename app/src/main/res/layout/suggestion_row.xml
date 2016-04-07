@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/bar">
+    <Button
+        android:id="@+id/remove"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+
+        android:text="+"
+        android:textColor="#fe1616"
+        android:textSize="20sp"
+        android:paddingEnd="@dimen/abc_action_bar_overflow_padding_start_material"
+        android:paddingStart="@dimen/abc_action_bar_overflow_padding_start_material"
+        android:width="@dimen/abc_action_bar_overflow_padding_end_material"
+        android:textColorHighlight="#ffffff"
+        android:textAlignment="center" />
+    <TextView
+        android:id="@+id/textout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/remove"
+        android:layout_alignParentTop="true"
+        android:textSize="20sp"
+        android:textColor="#555555" />
+
+</RelativeLayout>

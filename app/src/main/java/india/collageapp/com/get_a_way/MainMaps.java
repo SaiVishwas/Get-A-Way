@@ -112,6 +112,29 @@ public class MainMaps extends FragmentActivity implements
             }
         });
 
+        Button suggestion_btn = (Button) findViewById(R.id.suggestion_button);
+        suggestion_btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), Suggestions.class);
+                //     intent.putExtra("selectedPlaces_id", selectedPlaces);
+
+                // TODO : update waypoints here
+
+                for (String key : places_dict.keySet()) {
+
+                    // System.out.println("key: " + key + " value: " + places_dict.get(key));
+                    // waypoints = waypoints + "|" + place.getLatLng().latitude + "," + place.getLatLng().longitude ;
+                    waypoints = waypoints + "|" + places_dict.get(key) ;
+                    places_list = places_list + "|" + key ;
+                }
+                intent.putExtra("waypoints",waypoints);
+                intent.putExtra("places_list",places_list);
+                startActivity(intent);
+            }
+        });
+
         buttonAdd = (Button)findViewById(R.id.add_button);
         container = (LinearLayout)findViewById(R.id.container);
 
