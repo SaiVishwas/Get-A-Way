@@ -116,7 +116,7 @@ public class Suggestions extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), PathGoogleMapActivity.class);
+                Intent intent = new Intent(v.getContext(), DisplayAllPlaces.class);
                 //     intent.putExtra("selectedPlaces_id", selectedPlaces);
 
                 // TODO : update waypoints here
@@ -133,6 +133,8 @@ public class Suggestions extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
 
 

@@ -92,6 +92,7 @@
         <activity android:name=".PathGoogleMapActivity" />
         <activity android:name=".PlaceDetailsActivity" />
         <activity android:name=".Suggestions"></activity>
+        <activity android:name=".DisplayAllPlaces"></activity>
 
         <activity android:name=".ChatBot" />
         <activity android:name=".ChatBotMaps"></activity>
