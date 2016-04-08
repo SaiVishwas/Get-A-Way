@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Get-A-way</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_dashboard">Dashboard</string>
+    <string name="title_activity_Dashboard">Dashboard</string>
     <string name="title_activity_signup">SignUp</string>
     <string name="title_activity_homepage">Home</string>
     <string name="hello_world">Hello world!</string>
