@@ -1,9 +1,5 @@
 package india.collageapp.com.get_a_way;
 
-/**
- * Created by admin on 14-Mar-16.
- */
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +28,7 @@ public class SplashScreen extends Activity {
                 // Start your app main activity
                 Intent i = new Intent(SplashScreen.this, LoginActivity.class);
                 startActivity(i);
+
                 // close this activity
                 finish();
             }

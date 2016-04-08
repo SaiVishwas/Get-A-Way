@@ -16,8 +16,11 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SignupActivity extends AppCompatActivity {
+
+public class SignupActivity extends AppCompatActivity implements AsyncResponse {
     private static final String TAG = "SignupActivity";
+    String result= new String("SlowNetwork");
+    int i = 0;
 
     @InjectView(R.id.input_name) EditText _nameText;
     @InjectView(R.id.input_email) EditText _emailText;
@@ -66,6 +69,12 @@ public class SignupActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+        String username = email;
+
+        String type = "register";
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.delegate = this;
+        backgroundWorker.execute(type,name,email,username,password);
 
         // TODO: Implement your own signup logic here.
 
@@ -74,24 +83,93 @@ public class SignupActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
                         // depending on success
-                        onSignupSuccess();
+                       // onSignupSuccess();
                         // onSignupFailed();
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
+                        if (result.equals("")) {
+                            System.out.println("Not here1");
+                            //waitForIt(progressDialog);
+                            onSignupFailed();
+                            progressDialog.dismiss();
+                        }
+                        else if(result.equals("SlowNetwork")){
+                            System.out.println("Not here2");
+                            waitForIt(progressDialog);
+
+                        }
+
+                        else if (result.equals("Insert Successful")) {
+                            onSignupSuccess();
+                            progressDialog.dismiss();
+                        } else {
+                            System.out.println("Why come here1");
+                            onSignupFailed();
+                            progressDialog.dismiss();
+                        }
                     }
                 }, 3000);
+    }
+    protected void waitForIt(final ProgressDialog progressDialog) {
+
+        if (i >= 5) {
+            onSignupFailed();
+            progressDialog.dismiss();
+        } else {
+            i++;
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            // On complete call either onLoginSuccess or onLoginFailed
+                            if (result.equals("")) {
+                                System.out.println("Infinite Loop 1");
+                                onSignupFailed();
+                                progressDialog.dismiss();
+                            }
+                            else if(result.equals("SlowNetwork")){
+                                System.out.println("Infinite Loop 2");
+                                waitForIt(progressDialog);
+
+                            }
+                            else if (result.equals("Insert Successful")) {
+
+                                onSignupSuccess();
+                                progressDialog.dismiss();
+                            } else {
+                                System.out.println("Why come here2");
+                                onSignupFailed();
+                                progressDialog.dismiss();
+                            }
+                            // onLoginFailed();
+
+                        }
+                    }, 6000);
+
+
+        }
     }
 
 
     public void onSignupSuccess() {
+        i=0;
+        result="SlowNetwork";
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
     }
 
     public void onSignupFailed() {
+        i=0;
+        result="SlowNetwork";
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
+    }
+    public void processFinish(String output){
+        //Here you will receive the result fired from async class
+        //of onPostExecute(result) method.
+        result=output;
+        System.out.println("The final attempt in SignUp activity is" + output);
+
     }
 
     public boolean validate() {
@@ -125,3 +203,4 @@ public class SignupActivity extends AppCompatActivity {
         return valid;
     }
 }
+
