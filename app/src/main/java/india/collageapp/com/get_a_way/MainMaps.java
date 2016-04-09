@@ -108,6 +108,8 @@ public class MainMaps extends FragmentActivity implements
                 }
                 intent.putExtra("waypoints",waypoints);
                 intent.putExtra("places_list",places_list);
+                Intent service = new Intent(getBaseContext(),ChatHeadService.class);
+                startService(service);
                 startActivity(intent);
             }
         });
