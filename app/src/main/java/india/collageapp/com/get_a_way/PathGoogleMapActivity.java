@@ -1,5 +1,6 @@
 package india.collageapp.com.get_a_way;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -29,7 +30,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
 import android.Manifest;
 
 /**
@@ -337,29 +341,74 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         protected void onPostExecute(List<List<HashMap<String, String>>> routes) {
             ArrayList<LatLng> points = null;
             PolylineOptions polyLineOptions = null;
+            String distance = "";
+            String duration = "";
 
             // traversing through routes
+            Log.e("routes len : " , routes.size()+"");
             if(routes!=null)
             {
                 for (int i = 0; i < routes.size(); i++) {
+                //for (int i = 0; i < 1; i++) {
                     points = new ArrayList<LatLng>();
                     polyLineOptions = new PolylineOptions();
                     List<HashMap<String, String>> path = routes.get(i);
 
+                    Log.e("Path len : " , path.size() + "");
+
+
                     for (int j = 0; j < path.size(); j++) {
                         HashMap<String, String> point = path.get(j);
 
-                        double lat = Double.parseDouble(point.get("lat"));
-                        double lng = Double.parseDouble(point.get("lng"));
-                        LatLng position = new LatLng(lat, lng);
+                    /*    if(j==0){    // Get distance from the list
+                            distance = (String)point.get("distance") + "";
+                            Log.e("Dist recd : " , distance);
+                            continue;
+                        }
+                        else if(j==1){ // Get duration from the list
+                            duration = (String)point.get("duration") + "";
+                            Log.e("Dist recd : " , distance);
+                            continue;
+                        }
+*/
+                        Set<String> keys = point.keySet();
 
-                        points.add(position);
+                        for (String x : keys)
+                        {
+
+                            String value = (String) point.get(x);
+                            if(x.equals("distance"))
+                            {
+                                Log.e("Dist recd : " , value);
+
+                            }
+                            else if (x.equals("duration"))
+                            {
+                                Log.e("Dur recd : " , value);
+
+                            }
+                            else
+                            {
+                                double lat = Double.parseDouble(point.get("lat"));
+                                double lng = Double.parseDouble(point.get("lng"));
+                                LatLng position = new LatLng(lat, lng);
+
+                                points.add(position);
+                            }
+
+                        }
+
+
                     }
 
                     polyLineOptions.addAll(points);
                     polyLineOptions.width(10);
                     polyLineOptions.color(Color.BLUE);
                 }
+
+                // print dist, duration
+                Log.e("Dist : " , distance + "");
+                Log.e("Dur : " , duration + "");
             }
 
  //           googleMap.addPolyline(polyLineOptions);

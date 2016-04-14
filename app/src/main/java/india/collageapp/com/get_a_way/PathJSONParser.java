@@ -4,6 +4,8 @@ package india.collageapp.com.get_a_way;
  * Created by sai on 10-03-2016.
  */
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -20,6 +22,8 @@ public class PathJSONParser {
         List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String, String>>>();
         JSONArray jRoutes = null;
         JSONArray jLegs = null;
+        JSONObject jDistance = null;
+        JSONObject jDuration = null;
         JSONArray jSteps = null;
         try {
             jRoutes = jObject.getJSONArray("routes");
@@ -29,7 +33,38 @@ public class PathJSONParser {
                 List<HashMap<String, String>> path = new ArrayList<HashMap<String, String>>();
 
                 /** Traversing all legs */
-                for (int j = 0; j < jLegs.length(); j++) {
+                    for (int j = 0; j < jLegs.length(); j++) {
+
+                        String dist = "";
+                        String dur = "";
+
+                        /** Getting distance from the json data */
+
+
+                        jDistance = ((JSONObject) jLegs.get(j)).getJSONObject("distance");
+                        dist = jDistance.getString("text") + "";
+                        HashMap<String, String> hmDistance = new HashMap<String, String>();
+                        hmDistance.put("distance", dist.toString());
+
+                        /** Adding distance object to the path */
+                        path.add(0,hmDistance);
+
+
+                        /** Getting duration from the json data */
+
+                        jDuration = ((JSONObject) jLegs.get(j)).getJSONObject("duration");
+                        dur = jDuration.getString("text") + "";
+                        HashMap<String, String> hmDuration = new HashMap<String, String>();
+                        hmDuration.put("duration", dur.toString());
+
+
+
+                        /** Adding duration object to the path */
+                        path.add(1,hmDuration);
+
+                        Log.e("hmDistance :  ", dist);
+                        Log.e("hmDuration :  ", dur);
+
                     jSteps = ((JSONObject) jLegs.get(j)).getJSONArray("steps");
 
                     /** Traversing all steps */
@@ -43,15 +78,23 @@ public class PathJSONParser {
                         for (int l = 0; l < list.size(); l++) {
                             HashMap<String, String> hm = new HashMap<String, String>();
                             hm.put("lat",
-                                    Double.toString(((LatLng) list.get(l)).latitude));
+                                    Double.toString(((LatLng) list.get(l)).latitude) + "");
                             hm.put("lng",
-                                    Double.toString(((LatLng) list.get(l)).longitude));
+                                    Double.toString(((LatLng) list.get(l)).longitude) + "");
+
+                          //  Log.e("lat", Double.toString(((LatLng) list.get(l)).latitude) + "");
+                            //Log.e("lng", Double.toString(((LatLng) list.get(l)).longitude) + "");
+
                             path.add(hm);
                         }
                     }
-                    routes.add(path);
+
                 }
+                routes.add(path);
+
             }
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();

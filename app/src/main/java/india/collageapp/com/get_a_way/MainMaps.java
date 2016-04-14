@@ -148,6 +148,10 @@ public class MainMaps extends FragmentActivity implements
             {
                 mAutocompleteTextView.setText("");
 
+                // disable add button here
+
+                buttonAdd.setEnabled(false);
+
                 if(textIn != "") {
 
                     LayoutInflater layoutInflater =
@@ -181,8 +185,13 @@ public class MainMaps extends FragmentActivity implements
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener
             = new AdapterView.OnItemClickListener() {
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // enable add_button here
+
+            buttonAdd.setEnabled(true);
+
             final PlaceArrayAdapter.PlaceAutocomplete item = mPlaceArrayAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
             Log.i(LOG_TAG, "Selected: " + item.description);
