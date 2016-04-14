@@ -26,7 +26,9 @@ public class ChatHeadService extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         chatHead = new ImageView(this);
-        chatHead.setImageResource(R.drawable.help);
+        chatHead.setMaxWidth(50);
+        chatHead.setMaxHeight(50);
+        chatHead.setImageResource(R.drawable.help1);
 
         params= new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,

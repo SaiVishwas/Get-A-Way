@@ -58,7 +58,6 @@ public class Emergency extends FragmentActivity implements OnMapReadyCallback {
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        Log.d("LOCATION", "GOT MAP");
         mapFragment.getMapAsync(this);
     }
 
