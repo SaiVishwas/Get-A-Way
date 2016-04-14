@@ -35,7 +35,7 @@ public class HomePage extends AppCompatActivity {
         btn_maps.setOnClickListener(new View.OnClickListener() {
                                           @Override
                                           public void onClick(View v) {
-                                              Intent intent = new Intent(HomePage.this,MainMaps.class);
+                                              Intent intent = new Intent(HomePage.this,SelectTripPlan.class);
                                               startActivity(intent);
                                           }
                                       }
