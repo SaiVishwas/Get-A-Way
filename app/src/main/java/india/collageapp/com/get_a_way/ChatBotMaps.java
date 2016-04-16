@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -23,6 +24,9 @@ public class ChatBotMaps extends FragmentActivity implements OnMapReadyCallback 
 
     private GoogleMap mMap;
     private String placeList;
+    Double myLatitude =0.0;
+    Double myLongitude=0.0;
+
     HashMap<String, String> mMarkerPlaceLink = new HashMap<String, String>();
 
     @Override
@@ -31,6 +35,9 @@ public class ChatBotMaps extends FragmentActivity implements OnMapReadyCallback 
         setContentView(R.layout.activity_chat_bot_maps);
 
         placeList = getIntent().getStringExtra("placeList");
+        myLatitude = getIntent().getDoubleExtra("myLatitude", 0.0);
+        myLongitude = getIntent().getDoubleExtra("myLongitude", 0.0);
+
         Log.d("TRANSFER", placeList );
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -123,6 +130,14 @@ public class ChatBotMaps extends FragmentActivity implements OnMapReadyCallback 
                 // Linking Marker id and place reference
                 mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
             }
+            MarkerOptions markerOptions = new MarkerOptions();
+            LatLng latLng = new LatLng(myLatitude,myLongitude);
+            markerOptions.position(latLng);
+            markerOptions.title("You're currently here !").icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+            Marker m = mMap.addMarker(markerOptions);
+            m.showInfoWindow();
         }
     }
 }

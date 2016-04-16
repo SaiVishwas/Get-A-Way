@@ -25,6 +25,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class ChatBot extends AppCompatActivity implements LocationListener {
@@ -38,6 +40,8 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
     EditText e;
     Button b;
     String ans;
+    List places;
+    HashMap<String,String> placeCorrect = new HashMap<String,String>();
 
     String PLACES_SEARCH_URL="https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
     @Override
@@ -78,6 +82,17 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
 
     public void askQuestions()
     {
+        String[] list = {"restaurant","bank","atm","shopping_mall","gas_station","post_office","pharmacy","museum","police","hospital","cafe"};
+        places = Arrays.asList(list);
+        places.contains("restaurant");
+        placeCorrect.put("restaurants", "restaurant");
+        placeCorrect.put("malls","shopping_mall");
+        placeCorrect.put("mall","shopping_mall");
+        placeCorrect.put("hotel","restaurant");
+        placeCorrect.put("hotels","restaurant");
+        placeCorrect.put("petrol bunk","gas_station");
+        placeCorrect.put("petrol pump","gas_station");
+
         Calendar rightNow = Calendar.getInstance();
         int hour = rightNow.get(Calendar.HOUR_OF_DAY);
         String greeting="";
@@ -102,52 +117,68 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
 
     public void getReply(View v)
     {
-        boolean flag;
+        boolean flag=true;
         b.setEnabled(false);
         ans = e.getText().toString();
         String ques = t1.getText().toString();
         i = Arrays.asList(questions).indexOf(ques);
         Log.d("INDEX",String.valueOf(i));
-        if(ans == "")
+        if(ans.equals(""))
         {
             flag = false;
+            e.setError("Please enter the required details!");
         }
-        flag = preprocess();
-        e.setText("");
-        if(! flag)
-        {
-            //make tooltip appear
-        }
-        else {
-            if(i != 2)
-            {
-                ++i;
-                getNext();
-            }
-            else
-            {
-                e.setEnabled(false);
-                t1.setText("Locating nearby "+answers[0]+" for you ");
-                formQueryString();
-            }
+        if(flag) {
+            flag = preprocess();
+            e.setText("");
+            if(flag) {
+                if (i != 2) {
+                    ++i;
+                    getNext();
+                } else {
+                    e.setEnabled(false);
+                    t1.setText("Locating nearby " + answers[0] + " for you ");
+                    formQueryString();
+                }
 
+            }
         }
     }
 
+    private String check()
+    {
+        String key = ans.toLowerCase();
+        String value = key;
+        if(placeCorrect.containsKey(key))
+        {
+            value = placeCorrect.get(key);
+        }
+        if(places.contains(value))
+            return value;
+        else
+            return "";
+    }
     private boolean preprocess()
     {
         boolean result = true;
         if(i==0)
         {
-            answers[i] = ans;
-            //TODO
+            String val = check();
+            if(val.equals("")) {
+                result = false;
+                e.setError("Enter a valid place");
+            }
+            else
+            {
+                answers[i] = val;
+            }
         }
         if(i == 1 || i == 2)
         {
-            boolean check = isInteger(ans);
-            if(check)
+            boolean valid = isNumber(ans);
+            if(valid)
             {
-                int distance = Integer.parseInt(ans);
+                double distance = Double.parseDouble(ans);
                 if(distance != 0) {
                     distance *= 1000; // km into metres
                     answers[i] = String.valueOf(distance);
@@ -155,21 +186,23 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
                 else
                 {
                     //enter non zero distance
+                    e.setError("Enter a non zero value !");
                     result = false;
                 }
 
             }
             else{
                 //not an integer
+                e.setError("Enter a valid value !");
                 result = false;
             }
         }
         return result;
     }
 
-    public boolean isInteger(String s) {
+    public boolean isNumber(String s) {
         try {
-            Integer.parseInt(s);
+            Double.parseDouble(s);
         } catch(NumberFormatException e) {
             return false;
         } catch(NullPointerException e) {
@@ -262,6 +295,8 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
         {
             Intent intent = new Intent(getBaseContext(), ChatBotMaps.class);
             intent.putExtra("placeList", result);
+            intent.putExtra("myLatitude",mLatitude);
+            intent.putExtra("myLongitude", mLongitude);
             startActivity(intent);
 
         }
