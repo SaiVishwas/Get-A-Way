@@ -84,16 +84,25 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
 
     public void askQuestions()
     {
-        String[] list = {"restaurant","bank","atm","shopping_mall","gas_station","post_office","pharmacy","museum","police","hospital","cafe"};
+        String[] list = {"restaurant","bank","atm","shopping_mall","gas_station","post_office","pharmacy","museum",
+                        "police","hospital","cafe","bus_station","church","mosque","hindu_temple","movie_theater",
+                        "zoo","beauty_salon"};
+
         places = Arrays.asList(list);
         places.contains("restaurant");
         placeCorrect.put("restaurants", "restaurant");
-        placeCorrect.put("malls","shopping_mall");
+        placeCorrect.put("malls", "shopping_mall");
         placeCorrect.put("mall","shopping_mall");
         placeCorrect.put("hotel","restaurant");
         placeCorrect.put("hotels","restaurant");
+        placeCorrect.put("bus stop","bus_station");
         placeCorrect.put("petrol bunk","gas_station");
         placeCorrect.put("petrol pump","gas_station");
+        placeCorrect.put("police station","police");
+        placeCorrect.put("movie","movie_theater");
+        placeCorrect.put("theatre","movie_theater");
+        placeCorrect.put("salon","beauty_salon");
+        placeCorrect.put("palour","beauty_salon");
 
         Calendar rightNow = Calendar.getInstance();
         int hour = rightNow.get(Calendar.HOUR_OF_DAY);
