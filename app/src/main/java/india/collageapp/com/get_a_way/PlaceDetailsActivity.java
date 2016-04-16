@@ -121,13 +121,10 @@ public class PlaceDetailsActivity extends Activity {
             String name = hPlaceDetails.get("name");
             String icon = hPlaceDetails.get("icon");
             String vicinity = hPlaceDetails.get("vicinity");
-            String lat = hPlaceDetails.get("lat");
-            String lng = hPlaceDetails.get("lng");
             String formatted_address = hPlaceDetails.get("formatted_address");
             String formatted_phone = hPlaceDetails.get("formatted_phone");
             String website = hPlaceDetails.get("website");
             String rating = hPlaceDetails.get("rating");
-            String international_phone_number = hPlaceDetails.get("international_phone_number");
             String url = hPlaceDetails.get("url");
 
             String mimeType = "text/html";
@@ -138,12 +135,10 @@ public class PlaceDetailsActivity extends Activity {
                     "<br style='clear:both' />" +
                     "<hr />"+
                     "<p>Vicinity : " + vicinity + "</p>" +
-                    "<p>Location : " + lat + "," + lng + "</p>" +
                     "<p>Address : " + formatted_address + "</p>" +
                     "<p>Phone : " + formatted_phone + "</p>" +
                     "<p>Website : " + website + "</p>" +
                     "<p>Rating : " + rating + "</p>" +
-                    "<p>International Phone : " + international_phone_number + "</p>" +
                     "<p>URL : <a href='" + url + "'>" + url + "</p>" +
                     "</body></html>";
 

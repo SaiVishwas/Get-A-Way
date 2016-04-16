@@ -93,7 +93,8 @@ public class ChatBotMaps extends FragmentActivity implements OnMapReadyCallback 
         protected void onPostExecute(List<HashMap<String, String>> list)
         {
             mMap.clear();
-            for (int i = 0; i < list.size(); i++) {
+            int max = (list.size() > 8)?8:list.size();
+            for (int i = 0; i < max; i++) {
 
                 // Creating a marker
                 MarkerOptions markerOptions = new MarkerOptions();

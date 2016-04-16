@@ -137,7 +137,9 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
                     getNext();
                 } else {
                     e.setEnabled(false);
-                    t1.setText("Locating nearby " + answers[0] + " for you ");
+                    t1.setText("Locating nearby " + answers[0] + " for you ... ");
+                    e.setVisibility(View.INVISIBLE);
+                    b.setVisibility(View.INVISIBLE);
                     formQueryString();
                 }
 
