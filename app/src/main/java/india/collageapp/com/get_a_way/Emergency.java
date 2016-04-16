@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -172,7 +173,8 @@ public class Emergency extends FragmentActivity implements OnMapReadyCallback {
         protected void onPostExecute(List<HashMap<String, String>> list)
         {
             mMap.clear();
-            for (int i = 0; i < list.size(); i++) {
+            int max = (list.size() > 8)? 8: list.size();
+            for (int i = 0; i < max; i++) {
 
                 // Creating a marker
                 MarkerOptions markerOptions = new MarkerOptions();
@@ -205,8 +207,15 @@ public class Emergency extends FragmentActivity implements OnMapReadyCallback {
                 Marker m = mMap.addMarker(markerOptions);
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
-
             }
+            MarkerOptions markerOptions = new MarkerOptions();
+            LatLng latLng = new LatLng(mLatitude,mLongitude);
+            markerOptions.position(latLng);
+            markerOptions.title("You're currently here !").icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+            Marker m = mMap.addMarker(markerOptions);
+            m.showInfoWindow();
         }
     }
 }
