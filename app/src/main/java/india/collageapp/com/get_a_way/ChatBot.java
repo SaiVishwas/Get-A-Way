@@ -1,10 +1,12 @@
 package india.collageapp.com.get_a_way;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import android.location.Criteria;
@@ -295,11 +297,28 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
         @Override
         protected void onPostExecute(String result)
         {
-            Intent intent = new Intent(getBaseContext(), ChatBotMaps.class);
-            intent.putExtra("placeList", result);
-            intent.putExtra("myLatitude",mLatitude);
-            intent.putExtra("myLongitude", mLongitude);
-            startActivity(intent);
+            if (result.contains("ZERO_RESULTS")) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(ChatBot.this);
+                builder1.setMessage("Sorry couldn't locate it for you !");
+                builder1.setPositiveButton(
+                        "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = getIntent();
+                                finish();
+                                startActivity(intent);
+                            }
+                        });
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+            else {
+                Intent intent = new Intent(getBaseContext(), ChatBotMaps.class);
+                intent.putExtra("placeList", result);
+                intent.putExtra("myLatitude", mLatitude);
+                intent.putExtra("myLongitude", mLongitude);
+                startActivity(intent);
+            }
 
         }
 

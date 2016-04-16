@@ -2,11 +2,13 @@ package india.collageapp.com.get_a_way;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
@@ -94,23 +96,41 @@ public class MainMaps extends FragmentActivity implements
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), PathGoogleMapActivity.class);
-           //     intent.putExtra("selectedPlaces_id", selectedPlaces);
+
+                //     intent.putExtra("selectedPlaces_id", selectedPlaces);
 
                 // TODO : update waypoints here
 
                 for (String key : places_dict.keySet()) {
 
-                   // System.out.println("key: " + key + " value: " + places_dict.get(key));
-                   // waypoints = waypoints + "|" + place.getLatLng().latitude + "," + place.getLatLng().longitude ;
-                    waypoints = waypoints + "|" + places_dict.get(key) ;
-                    places_list = places_list + "|" + key ;
+                    // System.out.println("key: " + key + " value: " + places_dict.get(key));
+                    // waypoints = waypoints + "|" + place.getLatLng().latitude + "," + place.getLatLng().longitude ;
+                    waypoints = waypoints + "|" + places_dict.get(key);
+                    places_list = places_list + "|" + key;
                 }
-                intent.putExtra("waypoints",waypoints);
-                intent.putExtra("places_list",places_list);
-                Intent service = new Intent(getBaseContext(),ChatHeadService.class);
-                startService(service);
-                startActivity(intent);
+                if (places_list.equals("")) {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(MainMaps.this);
+                    builder1.setMessage("Please enter a destination ");
+                    builder1.setPositiveButton(
+                            "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
+
+                } else {
+                    Intent intent = new Intent(v.getContext(), PathGoogleMapActivity.class);
+                    intent.putExtra("waypoints", waypoints);
+                    intent.putExtra("places_list", places_list);
+                    Intent service = new Intent(getBaseContext(), ChatHeadService.class);
+                    startService(service);
+                    startActivity(intent);
+
+                }
             }
         });
 
@@ -119,7 +139,7 @@ public class MainMaps extends FragmentActivity implements
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), Suggestions.class);
+
                 //     intent.putExtra("selectedPlaces_id", selectedPlaces);
 
                 // TODO : update waypoints here
@@ -131,9 +151,25 @@ public class MainMaps extends FragmentActivity implements
                     waypoints = waypoints + "|" + places_dict.get(key) ;
                     places_list = places_list + "|" + key ;
                 }
-                intent.putExtra("waypoints",waypoints);
-                intent.putExtra("places_list",places_list);
-                startActivity(intent);
+                if (places_list.equals("")) {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(MainMaps.this);
+                    builder1.setMessage("Please enter a destination ");
+                    builder1.setPositiveButton(
+                            "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
+                else {
+                    Intent intent = new Intent(v.getContext(), Suggestions.class);
+                    intent.putExtra("waypoints", waypoints);
+                    intent.putExtra("places_list", places_list);
+                    startActivity(intent);
+                }
             }
         });
 
