@@ -112,7 +112,7 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
 
         questions[0] = greeting+"\nHey "+name+" !!! Where would you like to go ?";
         questions[1] = "How far do you want to travel ? (in Km)";
-        questions[2] = "How much time do you have at hand ?";
+        questions[2] = "How much time do you have at hand(in minutes) ?";
 
         t1.setText(questions[0]);
     }
@@ -299,7 +299,7 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
         {
             if (result.contains("ZERO_RESULTS")) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(ChatBot.this);
-                builder1.setMessage("Sorry couldn't locate it for you !");
+                builder1.setMessage("Sorry couldn't locate a "+answers[0]+" within a specified radius");
                 builder1.setPositiveButton(
                         "OK",
                         new DialogInterface.OnClickListener() {

@@ -139,6 +139,7 @@ public class ChatBotMaps extends FragmentActivity implements OnMapReadyCallback 
 
             Marker m = mMap.addMarker(markerOptions);
             m.showInfoWindow();
+
         }
     }
 }
