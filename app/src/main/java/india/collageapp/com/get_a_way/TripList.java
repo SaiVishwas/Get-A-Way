@@ -50,6 +50,7 @@ public class TripList extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         MyDialogFragmentListener activity = (MyDialogFragmentListener) getActivity();
                         activity.onReturnValue(select);
+                        dismiss();
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

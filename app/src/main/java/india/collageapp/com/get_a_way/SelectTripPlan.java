@@ -180,10 +180,11 @@ public class SelectTripPlan extends AppCompatActivity implements TripList.MyDial
         else
         {
             //move to the next activity
-            Intent intent = new Intent(getApplicationContext(),DisplayAllPlaces.class);
+            Log.d("RESULT",String.valueOf(select));
+            Intent intent = new Intent(getBaseContext(),DisplayAllPlaces.class);
             intent.putExtra("place_list",places[select]);
             intent.putExtra("waypoints",location[select]);
-            startActivity(intent);
+            //startActivity(intent);
         }
     }
 }

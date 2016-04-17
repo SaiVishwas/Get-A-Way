@@ -59,7 +59,7 @@ public class DisplayAllPlaces extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displayallplaces);
-
+        Log.d("RESULT", "hello");
         //   TextView t = (TextView)findViewById(R.id.suggest);
 
         Bundle bundle = getIntent().getExtras();
@@ -83,24 +83,16 @@ public class DisplayAllPlaces extends AppCompatActivity
 
         if(data.length > 1)
         {
-            for (int i = 1; i < data.length; ++i)
-            {
+            for (int i = 1; i < data.length; ++i) {
                 String[] lat_lng = data[i].split(",");
 
-                LatLng loc1 = new LatLng(Double.parseDouble(lat_lng[0]),Double.parseDouble(lat_lng[1]) );
+                LatLng loc1 = new LatLng(Double.parseDouble(lat_lng[0]), Double.parseDouble(lat_lng[1]));
 
                 //addMarkers(mMap,tmp,place_names[i]);
 
-                places_dict.put(place_names[i],data[i]);
-
-
-
+                places_dict.put(place_names[i], data[i]);
             }
-
-
-
         }
-
 
         add_cards();
 
@@ -167,6 +159,7 @@ public class DisplayAllPlaces extends AppCompatActivity
                     /*waypoints_ = waypoints_ + "|" + places_dict.get(place_name) ;
                     places_list = places_list + "|" + place_name ;
                     */
+
                 }
             });
 
