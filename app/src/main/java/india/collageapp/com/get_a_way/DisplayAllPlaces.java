@@ -130,42 +130,8 @@ public class DisplayAllPlaces extends AppCompatActivity
             }
         });
 
-
-
-
-
-
-
-/*
-        PlacesTask placesTask1 = new PlacesTask();
-        PlacesTask placesTask2 = new PlacesTask();
-
-        String options="amusement_park|aquarium|art_gallery|museum|park|spa|zoo|cafe|campground|church|hindu_temple|stadium|shopping_mall|rv_park|park|night_club|museum";
-        LatLng loc1 = new LatLng(13.0648845,77.553149);
-
-        StringBuilder sb = new StringBuilder(PLACES_SEARCH_URL);
-        sb.append("location=" + loc1.latitude + "," + loc1.longitude);
-        sb.append("&radius=5000");
-        sb.append("&types=" + options);
-        sb.append("&sensor=true");
-        sb.append("&key=AIzaSyC1PUYZSljcphlf0zn2rN_Ae2MP8MWVlfU");
-
-        placesTask1.execute(sb.toString());
-
-
-        LatLng loc2 = new LatLng(19.0760,72.8777);
-        StringBuilder sb1 = new StringBuilder(PLACES_SEARCH_URL);
-        sb1.append("location=" + loc2.latitude + "," + loc2.longitude);
-        sb1.append("&radius=5000");
-        sb1.append("&types=" + options);
-        sb1.append("&sensor=true");
-        sb1.append("&key=AIzaSyC1PUYZSljcphlf0zn2rN_Ae2MP8MWVlfU");
-
-        placesTask2.execute(sb1.toString());
-*/
         Log.e("Final places @ : " , suggestion_name);
         Log.e("Final latlng  @ : " , suggestion_latlng);
-
     }
 
     void add_cards()
@@ -201,10 +167,6 @@ public class DisplayAllPlaces extends AppCompatActivity
                     /*waypoints_ = waypoints_ + "|" + places_dict.get(place_name) ;
                     places_list = places_list + "|" + place_name ;
                     */
-
-
-
-
                 }
             });
 
