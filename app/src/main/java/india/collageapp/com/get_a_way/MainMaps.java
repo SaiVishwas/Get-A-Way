@@ -108,7 +108,8 @@ public class MainMaps extends FragmentActivity implements
                     waypoints = waypoints + "|" + places_dict.get(key);
                     places_list = places_list + "|" + key;
                 }
-                /*if (places_list.equals("")) {
+                Log.d("RESULT",places_list);
+                if (places_list.equals("")) {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(MainMaps.this);
                     builder1.setMessage("Please enter a destination ");
                     builder1.setPositiveButton(
@@ -122,15 +123,13 @@ public class MainMaps extends FragmentActivity implements
                     alert11.show();
 
 
-                } else {*/
+                } else {
                     Intent intent = new Intent(v.getContext(), PathGoogleMapActivity.class);
                     intent.putExtra("waypoints", waypoints);
                     intent.putExtra("places_list", places_list);
-                    Intent service = new Intent(getBaseContext(), ChatHeadService.class);
-                    startService(service);
                     startActivity(intent);
 
-                //}
+                }
             }
         });
 
@@ -151,7 +150,7 @@ public class MainMaps extends FragmentActivity implements
                     waypoints = waypoints + "|" + places_dict.get(key) ;
                     places_list = places_list + "|" + key ;
                 }
-                /*if (places_list.equals("")) {
+                if (places_list.equals("")) {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(MainMaps.this);
                     builder1.setMessage("Please enter a destination ");
                     builder1.setPositiveButton(
@@ -164,12 +163,12 @@ public class MainMaps extends FragmentActivity implements
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
                 }
-                else {*/
+                else {
                     Intent intent = new Intent(v.getContext(), Suggestions.class);
                     intent.putExtra("waypoints", waypoints);
                     intent.putExtra("places_list", places_list);
                     startActivity(intent);
-                //}
+                }
             }
         });
 
