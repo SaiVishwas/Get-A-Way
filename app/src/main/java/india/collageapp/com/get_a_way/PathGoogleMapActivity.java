@@ -31,15 +31,13 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import android.Manifest;
 
-import static java.lang.Thread.sleep;
+
 
 /**
  * Created by sai on 10-03-2016.
@@ -326,7 +324,6 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             Log.d("PROGRESS", " post execute async");
-            //mDialog.dismiss();
             new ParserTask().execute(result);
         }
     }
@@ -357,16 +354,16 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         protected void onPostExecute(List<List<HashMap<String, String>>> routes) {
             ArrayList<LatLng> points = null;
             PolylineOptions polyLineOptions = null;
-            String distance = "";
-            String duration = "";
 
+
+            double distance =0.0,ld=0.0;
+            int hr=0,lhr=0,min=0,lmin=0;
             // traversing through routes
             Log.e("routes len : " , routes.size()+"");
             if(routes!=null)
             {
-
-
-
+                String[] dist;
+                String[] time;
                 for (int i = 0; i < routes.size(); i++) {
                 //for (int i = 0; i < 1; i++) {
                     points = new ArrayList<LatLng>();
@@ -374,10 +371,6 @@ public class PathGoogleMapActivity extends FragmentActivity implements
                     List<HashMap<String, String>> path = routes.get(i);
 
                     Log.e("Path len : " , path.size() + "");
-
-                    //Log.e("order : " , path.get("waypoint_order"));
-
-
 
                     for (int j = 0; j < path.size(); j++) {
                         HashMap<String, String> point = path.get(j);
@@ -402,26 +395,43 @@ public class PathGoogleMapActivity extends FragmentActivity implements
                             if(x.equals("distance"))
                             {
                                 Log.e("Dist recd : " , value);
-                                distance = value;
-
+                                dist = value.split(" ");
+                                Log.e("Dist recd : " , String.valueOf(dist.length));
+                                if(dist[1].equals("km"))
+                                {
+                                    ld = Double.parseDouble(dist[0]);
+                                    distance += ld;
+                                }
                             }
                             else if (x.equals("duration"))
                             {
                                 Log.e("Dur recd : " , value);
-
+                                time = value.split(" ");
+                                if(time[1].equals("hours"))
+                                {
+                                    lhr = Integer.parseInt(time[0]);
+                                    hr += lhr;
+                                    if(time.length > 2)
+                                    {
+                                        lmin = Integer.parseInt(time[2]);
+                                        min += lmin;
+                                    }
+                                }
+                                else
+                                {
+                                    lmin = Integer.parseInt(time[0]);
+                                    min += lmin;
+                                }
                             }
                             else
                             {
                                 double lat = Double.parseDouble(point.get("lat"));
-                                double lng = Double.parseDouble(point.get("lng"));
-                                LatLng position = new LatLng(lat, lng);
+                                double lng = Double.parseDouble(point.get("lng"));LatLng position = new LatLng(lat, lng);
 
                                 points.add(position);
                             }
 
                         }
-
-
                     }
 
                     polyLineOptions.addAll(points);
@@ -429,19 +439,20 @@ public class PathGoogleMapActivity extends FragmentActivity implements
                     polyLineOptions.color(Color.BLUE);
                 }
                 mDialog.dismiss();
-                // print dist, duration
-                Log.e("Dist : " , distance + "");
-                Log.e("Dur : " , duration + "");
-                try {
-                    Log.d("SLEEP","SLEEP");
-                    sleep(3000);
-                } catch (InterruptedException e) {
-                    Log.d("SLEEP","NO SLEEP");
-                    e.printStackTrace();
+
+                distance -= ld; //subtracting distance back to source
+                hr -= lhr;
+                min -= lmin;
+                if(min > 60)
+                {
+                    hr += (min/60);
+                    min = min %60;
                 }
+                String h = (hr > 0)? String.valueOf(hr)+" hours " : "";
+                String m = (min > 0)? String.valueOf(min)+" mins" : "";
                 AlertDialog.Builder builder = new AlertDialog.Builder(PathGoogleMapActivity.this);
                 builder.setTitle("Travel Summary")
-                        .setMessage("travel time" + distance)
+                        .setMessage("No. of destination: " + routes.size() + "\n\nTravel Distance: " + distance+" km\n\nTravel Time: "+h+m+"\n")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {

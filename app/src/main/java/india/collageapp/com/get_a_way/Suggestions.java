@@ -73,7 +73,7 @@ public class Suggestions extends AppCompatActivity {
 
         String[] data = waypoints_.split("\\|");
         String[] place_names = places_list.split("\\|");
-
+        mDialog = ProgressDialog.show(Suggestions.this, "Please wait...", "Loading Suggestions ...", true);
         no_of_places = data.length - 1;
         //Log.e("list : " , Arrays.toString(data));
         if(data.length > 1)
@@ -186,7 +186,7 @@ public class Suggestions extends AppCompatActivity {
         String data = null;
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog = ProgressDialog.show(Suggestions.this, "Please wait...", "Loading Suggestions ...", true);
+
         }
         // Invoked by execute() method of this object
         @Override
@@ -276,10 +276,11 @@ public class Suggestions extends AppCompatActivity {
 
             ++ places_counter;
 
-            Log.e("count : " , places_counter + "   ,    " + no_of_places + "");
+            Log.e("count : ", places_counter + "   ,    " + no_of_places + "");
 
             if(places_counter == no_of_places)
             {
+                mDialog.dismiss();
                 completed_flag = 1;
                 Log.e("Final places : " , suggestion_name);
                 Log.e("Final latlng : " , suggestion_latlng);

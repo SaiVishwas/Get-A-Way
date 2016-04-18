@@ -28,7 +28,7 @@ public class ChatHeadService extends Service {
         chatHead = new ImageView(this);
         chatHead.setMaxWidth(50);
         chatHead.setMaxHeight(50);
-        chatHead.setImageResource(R.drawable.help1);
+        chatHead.setImageResource(R.drawable.help);
 
         params= new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
