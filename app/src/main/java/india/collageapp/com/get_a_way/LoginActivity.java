@@ -23,7 +23,7 @@ import butterknife.InjectView;
 public class LoginActivity extends AppCompatActivity implements AsyncResponse{
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-    String result = new String("SloNetwork");
+    String result = new String("Slow Network");
     int i=0;
     @InjectView(R.id.input_email) EditText _emailText;
     @InjectView(R.id.input_password) EditText _passwordText;
@@ -236,3 +236,4 @@ public class LoginActivity extends AppCompatActivity implements AsyncResponse{
         return valid;
     }
 }
+

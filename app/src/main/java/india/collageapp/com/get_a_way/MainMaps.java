@@ -55,7 +55,8 @@ public class MainMaps extends FragmentActivity implements
     private Button buttonAdd;
     private LinearLayout container;
     private String textIn = "";
-
+    private String tlon = "";
+    private  String tlat = "";
     private Hashtable<String, String> places_dict = new Hashtable<String, String>();
     private PathGoogleMapActivity mPathGoogleMapActivity ;
 
@@ -108,7 +109,7 @@ public class MainMaps extends FragmentActivity implements
                     waypoints = waypoints + "|" + places_dict.get(key);
                     places_list = places_list + "|" + key;
                 }
-                /*if (places_list.equals("")) {
+                if (places_dict.isEmpty()) {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(MainMaps.this);
                     builder1.setMessage("Please enter a destination ");
                     builder1.setPositiveButton(
@@ -122,7 +123,7 @@ public class MainMaps extends FragmentActivity implements
                     alert11.show();
 
 
-                } else {*/
+                } else {
                     Intent intent = new Intent(v.getContext(), PathGoogleMapActivity.class);
                     intent.putExtra("waypoints", waypoints);
                     intent.putExtra("places_list", places_list);
@@ -130,7 +131,7 @@ public class MainMaps extends FragmentActivity implements
                     startService(service);
                     startActivity(intent);
 
-                //}
+                }
             }
         });
 
@@ -151,7 +152,7 @@ public class MainMaps extends FragmentActivity implements
                     waypoints = waypoints + "|" + places_dict.get(key) ;
                     places_list = places_list + "|" + key ;
                 }
-                /*if (places_list.equals("")) {
+                if (places_dict.isEmpty()) {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(MainMaps.this);
                     builder1.setMessage("Please enter a destination ");
                     builder1.setPositiveButton(
@@ -164,12 +165,12 @@ public class MainMaps extends FragmentActivity implements
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
                 }
-                else {*/
+                else {
                     Intent intent = new Intent(v.getContext(), Suggestions.class);
                     intent.putExtra("waypoints", waypoints);
                     intent.putExtra("places_list", places_list);
                     startActivity(intent);
-                //}
+                }
             }
         });
 
@@ -190,29 +191,41 @@ public class MainMaps extends FragmentActivity implements
 
                 if(textIn != "") {
 
-                    LayoutInflater layoutInflater =
-                            (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    final View addView = layoutInflater.inflate(R.layout.row, null);
-                    final TextView textOut = (TextView) addView.findViewById(R.id.textout);
-                    textOut.setText(textIn);
-                    Button buttonRemove = (Button) addView.findViewById(R.id.remove);
-                    buttonRemove.setOnClickListener(new View.OnClickListener() {
+                    if (places_dict.containsKey(textIn)) {
+                        // Lisa add dialog box here saying that place is already entered
+                    }
+                    else{
+                        places_dict.put(textIn, tlat + "," + tlon);
 
-                        @Override
-                        public void onClick(View v) {
-                            ((LinearLayout) addView.getParent()).removeView(addView);
-                            Log.e("Removed : ", textOut.getText() + "");
-                            places_dict.remove(textOut.getText()+"");
-                            Log.e("place dict" , places_dict.toString());
+                        LayoutInflater layoutInflater =
+                                (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        final View addView = layoutInflater.inflate(R.layout.row, null);
+                        final TextView textOut = (TextView) addView.findViewById(R.id.textout);
+                        textOut.setText(textIn);
+                        Button buttonRemove = (Button) addView.findViewById(R.id.remove);
+                        buttonRemove.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                ((LinearLayout) addView.getParent()).removeView(addView);
+                                Log.e("Removed : ", textOut.getText() + "");
+                                places_dict.remove(textOut.getText() + "");
+                                Log.e("place dict", places_dict.toString());
 
 
-                        }
-                    });
+                            }
+                        });
 
-                    container.addView(addView);
+                        textIn = "";
+                        tlat = "";
+                        tlon = "";
+
+                        container.addView(addView);
+
+                    }
+
 
                 }
-
             }
 
         });
@@ -253,7 +266,10 @@ public class MainMaps extends FragmentActivity implements
 
 
             textIn = place.getName() + "";
-            places_dict.put(textIn,place.getLatLng().latitude + "," + place.getLatLng().longitude);
+
+            //places_dict.put(textIn,place.getLatLng().latitude + "," + place.getLatLng().longitude);
+            tlat = place.getLatLng().latitude + "";
+            tlon = place.getLatLng().longitude + "";
             selectedPlaces.add(place);
          //   waypoints = waypoints + "|" + place.getLatLng().latitude + "," + place.getLatLng().longitude ;
         }
