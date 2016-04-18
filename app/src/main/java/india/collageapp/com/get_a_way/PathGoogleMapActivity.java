@@ -248,7 +248,7 @@ public class PathGoogleMapActivity extends FragmentActivity implements
 
         String waypoints = waypoints_;
 
-        String params = origin + "&" + destination + "&" + waypoints + "&" + sensor;
+        String params = origin + "&" + destination + "&" + waypoints + "&" + sensor + "&key=AIzaSyCmFHV-bPjsVKSe0xaRPwwFSVBCmQGJPLo";
 
 
         String output = "json";
@@ -354,6 +354,9 @@ public class PathGoogleMapActivity extends FragmentActivity implements
             Log.e("routes len : " , routes.size()+"");
             if(routes!=null)
             {
+
+
+
                 for (int i = 0; i < routes.size(); i++) {
                 //for (int i = 0; i < 1; i++) {
                     points = new ArrayList<LatLng>();
@@ -361,6 +364,9 @@ public class PathGoogleMapActivity extends FragmentActivity implements
                     List<HashMap<String, String>> path = routes.get(i);
 
                     Log.e("Path len : " , path.size() + "");
+
+                    //Log.e("order : " , path.get("waypoint_order"));
+
 
 
                     for (int j = 0; j < path.size(); j++) {
