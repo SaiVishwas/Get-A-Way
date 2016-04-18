@@ -76,7 +76,7 @@ public class SelectTripPlan extends AppCompatActivity implements TripList.MyDial
                 Log.d("RESULT", arg0[0]);
                 //String username = (String)arg0[0];
                 //String password = (String)arg0[1];
-                String link = "http://travelapp.freevar.com/getTrip.php?username=soumyareddy96@gmail.com";
+                String link = "http://travelapp.freevar.com/getTrip.php?username=nagu9876@gmail.com";
                 Log.d("RESULT",link);
                 URL url = new URL(link);
                 HttpClient client = new DefaultHttpClient();
@@ -133,9 +133,9 @@ public class SelectTripPlan extends AppCompatActivity implements TripList.MyDial
 
                     }
 
-                    Log.d("RESULT",places[0]);
-                    Log.d("RESULT",places[1]);
-                    Log.d("RESULT", places[2]);
+                    //Log.d("RESULT",places[0]);
+                    //Log.d("RESULT",places[1]);
+                    //Log.d("RESULT", places[2]);
 
 
                     DialogFragment newFragment = TripList.newInstance(tripnames);
@@ -180,11 +180,12 @@ public class SelectTripPlan extends AppCompatActivity implements TripList.MyDial
         else
         {
             //move to the next activity
-            Log.d("RESULT",String.valueOf(select));
+            Log.d("RESULT", String.valueOf(select));
             Intent intent = new Intent(getBaseContext(),DisplayAllPlaces.class);
-            intent.putExtra("place_list",places[select]);
-            intent.putExtra("waypoints",location[select]);
-            //startActivity(intent);
+            String add=" waypoints=optimize:true"+location[select];
+            intent.putExtra("places_list",places[select]);
+            intent.putExtra("waypoints", add);
+            startActivity(intent);
         }
     }
 }

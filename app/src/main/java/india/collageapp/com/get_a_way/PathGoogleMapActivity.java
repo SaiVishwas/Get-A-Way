@@ -1,5 +1,7 @@
 package india.collageapp.com.get_a_way;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -50,10 +52,6 @@ public class PathGoogleMapActivity extends FragmentActivity implements
     private GoogleApiClient mGoogleApiClient;
     private static final int GOOGLE_API_CLIENT_ID = 0;
 
-    private static final LatLng LOWER_MANHATTAN = new LatLng(40.722543,
-            -73.998585);
-    private static final LatLng BROOKLYN_BRIDGE = new LatLng(40.7057, -73.9964);
-    private static final LatLng WALL_STREET = new LatLng(40.7064, -74.0094);
 
     private static final String LOG_TAG = "PathGoogleMapActivity";
     GoogleMap mMap;
@@ -70,6 +68,8 @@ public class PathGoogleMapActivity extends FragmentActivity implements
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Intent service = new Intent(getBaseContext(), ChatHeadService.class);
+        startService(service);
 
         setContentView(R.layout.route);
         setUpMapIfNeeded();
@@ -297,6 +297,12 @@ public class PathGoogleMapActivity extends FragmentActivity implements
 
     private class ReadTask extends AsyncTask<String, Void, String> {
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
         protected String doInBackground(String... url) {
             String data = "";
             try {
@@ -380,6 +386,7 @@ public class PathGoogleMapActivity extends FragmentActivity implements
                             if(x.equals("distance"))
                             {
                                 Log.e("Dist recd : " , value);
+                                distance = value;
 
                             }
                             else if (x.equals("duration"))
@@ -409,6 +416,18 @@ public class PathGoogleMapActivity extends FragmentActivity implements
                 // print dist, duration
                 Log.e("Dist : " , distance + "");
                 Log.e("Dur : " , duration + "");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(PathGoogleMapActivity.this);
+                builder.setTitle("Travel Summary")
+                        .setMessage("travel time" + distance)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+                AlertDialog alert2 = builder.create();
+                alert2.show();
             }
 
  //           googleMap.addPolyline(polyLineOptions);
