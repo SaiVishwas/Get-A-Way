@@ -5,6 +5,7 @@ package india.collageapp.com.get_a_way;
  */
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -36,11 +37,8 @@ import java.util.List;
 public class Suggestions extends AppCompatActivity {
 
     String PLACES_SEARCH_URL="https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
-   // String listName="Hello World\n";
     String suggestion_name = "";
     String suggestion_latlng ="";
-    //int total = 2;
-    //int i=0;
 
     String waypoints_ ;
     String places_list ;
@@ -48,6 +46,8 @@ public class Suggestions extends AppCompatActivity {
     int no_of_places = 0 ;
     int places_counter = 0;
     int completed_flag = 0;
+
+    private ProgressDialog mDialog;
 
     private Hashtable<String, String> places_dict = new Hashtable<String, String>();
     private Hashtable<String, String> selected_places_dict = new Hashtable<String, String>();
@@ -60,8 +60,6 @@ public class Suggestions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggestions);
 
-        //   TextView t = (TextView)findViewById(R.id.suggest);
-
         Bundle bundle = getIntent().getExtras();
         //   selectedPlaces_id = (ArrayList<String>)bundle.getSerializable("selectedPlaces_id");
 
@@ -69,8 +67,6 @@ public class Suggestions extends AppCompatActivity {
         waypoints_ = (String)bundle.getSerializable("waypoints");
         // places list contains place names
         places_list = (String)bundle.getSerializable("places_list");
-
-
 
         Log.e("waypoints: " , waypoints_);
         Log.e("places list : ", places_list);
@@ -102,13 +98,7 @@ public class Suggestions extends AppCompatActivity {
 
                 placesTask1.execute(sb.toString());
 
-
-
-
             }
-
-
-
         }
 
         Button btn = (Button) findViewById(R.id.button);
@@ -134,39 +124,6 @@ public class Suggestions extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-/*
-        PlacesTask placesTask1 = new PlacesTask();
-        PlacesTask placesTask2 = new PlacesTask();
-
-        String options="amusement_park|aquarium|art_gallery|museum|park|spa|zoo|cafe|campground|church|hindu_temple|stadium|shopping_mall|rv_park|park|night_club|museum";
-        LatLng loc1 = new LatLng(13.0648845,77.553149);
-
-        StringBuilder sb = new StringBuilder(PLACES_SEARCH_URL);
-        sb.append("location=" + loc1.latitude + "," + loc1.longitude);
-        sb.append("&radius=5000");
-        sb.append("&types=" + options);
-        sb.append("&sensor=true");
-        sb.append("&key=AIzaSyC1PUYZSljcphlf0zn2rN_Ae2MP8MWVlfU");
-
-        placesTask1.execute(sb.toString());
-
-
-        LatLng loc2 = new LatLng(19.0760,72.8777);
-        StringBuilder sb1 = new StringBuilder(PLACES_SEARCH_URL);
-        sb1.append("location=" + loc2.latitude + "," + loc2.longitude);
-        sb1.append("&radius=5000");
-        sb1.append("&types=" + options);
-        sb1.append("&sensor=true");
-        sb1.append("&key=AIzaSyC1PUYZSljcphlf0zn2rN_Ae2MP8MWVlfU");
-
-        placesTask2.execute(sb1.toString());
-*/
         Log.e("Final places @ : " , suggestion_name);
         Log.e("Final latlng  @ : " , suggestion_latlng);
 
@@ -215,10 +172,6 @@ public class Suggestions extends AppCompatActivity {
                     /*waypoints_ = waypoints_ + "|" + places_dict.get(place_name) ;
                     places_list = places_list + "|" + place_name ;
                     */
-
-
-
-
                 }
             });
 
@@ -231,7 +184,10 @@ public class Suggestions extends AppCompatActivity {
     {
 
         String data = null;
-
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDialog = ProgressDialog.show(Suggestions.this, "Please wait...", "Loading Suggestions ...", true);
+        }
         // Invoked by execute() method of this object
         @Override
         protected String doInBackground(String... url) {
@@ -298,14 +254,10 @@ public class Suggestions extends AppCompatActivity {
 
         protected void onPostExecute(List<HashMap<String, String>> list)
         {
-            // TextView t = (TextView)findViewById(R.id.suggest);
-            //++i;
-
             // not all places have 6 suggestions
+            int max = (list.size() > 6) ? 6: list.size();
 
-            if( list.size() < 6)
-            {
-                for (int i = 0; i < list.size(); i++)   // this line is correct actually
+                for (int i = 0; i < max; i++)   // this line is correct actually
                 {
                     // Getting a place from the places list
                     HashMap<String, String> hmPlace = list.get(i);
@@ -318,30 +270,6 @@ public class Suggestions extends AppCompatActivity {
                         suggestion_latlng += "|" + lat + "," + lng;
                     }
                 }
-            }
-
-            else
-            {
-                for (int i = 0; i < 6; i++) {
-                    // Getting a place from the places list
-                    HashMap<String, String> hmPlace = list.get(i);
-                    // Getting name
-                    if (hmPlace != null) {
-                        String name = hmPlace.get("place_name");
-                        String lat = hmPlace.get("lat") + "";
-                        String lng = hmPlace.get("lng") + "";
-                        suggestion_name += "|" + name;
-                        suggestion_latlng += "|" + lat + "," + lng;
-                    }
-                }
-            }
-            //t.setText(listName);
-            /*t.setText(listName);
-            if(i==total) {
-                Log.d("LIST", listName);
-                t.setText(listName);
-            }
-            */
 
             Log.e("suggested place names: ",suggestion_name);
             Log.e("suggested latlng : ",suggestion_latlng);
@@ -358,6 +286,7 @@ public class Suggestions extends AppCompatActivity {
 
                 add_cards();
             }
+            mDialog.dismiss();
         }
     }
 }

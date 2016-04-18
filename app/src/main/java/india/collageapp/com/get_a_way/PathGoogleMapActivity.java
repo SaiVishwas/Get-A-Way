@@ -1,6 +1,7 @@
 package india.collageapp.com.get_a_way;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,6 +38,8 @@ import java.util.List;
 import java.util.Set;
 
 import android.Manifest;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Created by sai on 10-03-2016.
@@ -294,12 +297,17 @@ public class PathGoogleMapActivity extends FragmentActivity implements
     public void onConnectionSuspended(int i) {
         Log.e(LOG_TAG, "Google Places API connection suspended.");
     }
-
+    private ProgressDialog mDialog;
     private class ReadTask extends AsyncTask<String, Void, String> {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            mDialog = ProgressDialog.show(PathGoogleMapActivity.this, "Please wait...", "Drawing Route ...", true);
+        }
 
+        protected void onProgressUpdate(Void... progress) {
+            Log.d("PROGRESS", " progress async");
         }
 
         @Override
@@ -317,6 +325,8 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            Log.d("PROGRESS", " post execute async");
+            //mDialog.dismiss();
             new ParserTask().execute(result);
         }
     }
@@ -418,11 +428,17 @@ public class PathGoogleMapActivity extends FragmentActivity implements
                     polyLineOptions.width(10);
                     polyLineOptions.color(Color.BLUE);
                 }
-
+                mDialog.dismiss();
                 // print dist, duration
                 Log.e("Dist : " , distance + "");
                 Log.e("Dur : " , duration + "");
-
+                try {
+                    Log.d("SLEEP","SLEEP");
+                    sleep(3000);
+                } catch (InterruptedException e) {
+                    Log.d("SLEEP","NO SLEEP");
+                    e.printStackTrace();
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(PathGoogleMapActivity.this);
                 builder.setTitle("Travel Summary")
                         .setMessage("travel time" + distance)

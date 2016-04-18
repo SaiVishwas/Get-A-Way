@@ -193,7 +193,17 @@ public class MainMaps extends FragmentActivity implements
                 if(textIn != "") {
 
                     if (places_dict.containsKey(textIn)) {
-                        // Lisa add dialog box here saying that place is already entered
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainMaps.this);
+                        builder.setMessage("Destination has already been entered ");
+                        builder.setPositiveButton(
+                                "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }
                     else{
                         places_dict.put(textIn, tlat + "," + tlon);
