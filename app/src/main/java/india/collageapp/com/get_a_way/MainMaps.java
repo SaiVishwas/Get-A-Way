@@ -185,6 +185,7 @@ public class MainMaps extends FragmentActivity implements
             {
                 mAutocompleteTextView.setText("");
 
+
                 // disable add button here
 
                 buttonAdd.setEnabled(false);
