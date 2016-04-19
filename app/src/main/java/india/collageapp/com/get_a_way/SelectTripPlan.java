@@ -52,7 +52,7 @@ public class SelectTripPlan extends AppCompatActivity implements TripList.MyDial
             public void onClick(View v) {
                 int selectedId = planGroup.getCheckedRadioButtonId();
                 planButton = (RadioButton) findViewById(selectedId);
-                if (planButton.getText().equals("Plan A New Trip")) {
+                if (planButton.getText().equals("   Plan A New Trip   ")) {
                     // move to the activity to plan new trip
                     Intent intent = new Intent(getBaseContext(), MainMaps.class); //change here
                     startActivity(intent);

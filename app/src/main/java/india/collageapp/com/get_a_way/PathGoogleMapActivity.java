@@ -24,6 +24,8 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -66,13 +68,15 @@ public class PathGoogleMapActivity extends FragmentActivity implements
     String places_list ;
     private int got_places_flag = 0;
     private static final int PERMISSION_REQUEST_CODE = 1;
+    BitmapDescriptor[] icon ;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         Intent service = new Intent(getBaseContext(), ChatHeadService.class);
         startService(service);
-
+        icon = new BitmapDescriptor[15];
         setContentView(R.layout.route);
         setUpMapIfNeeded();
         ReadTask downloadTask = new ReadTask();
@@ -230,6 +234,20 @@ public class PathGoogleMapActivity extends FragmentActivity implements
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
+                icon[1] = BitmapDescriptorFactory.fromResource(R.drawable.number_1);
+                icon[2] = BitmapDescriptorFactory.fromResource(R.drawable.number_2);
+                icon[3] = BitmapDescriptorFactory.fromResource(R.drawable.number_3);
+                icon[4] = BitmapDescriptorFactory.fromResource(R.drawable.number_4);
+                icon[5] = BitmapDescriptorFactory.fromResource(R.drawable.number_5);
+                icon[6] = BitmapDescriptorFactory.fromResource(R.drawable.number_6);
+                icon[7] = BitmapDescriptorFactory.fromResource(R.drawable.number_7);
+                icon[8] = BitmapDescriptorFactory.fromResource(R.drawable.number_8);
+                icon[9] = BitmapDescriptorFactory.fromResource(R.drawable.number_9);
+                icon[10] = BitmapDescriptorFactory.fromResource(R.drawable.number_10);
+                icon[11] = BitmapDescriptorFactory.fromResource(R.drawable.number_11);
+                icon[12] = BitmapDescriptorFactory.fromResource(R.drawable.number_12);
+                icon[13] = BitmapDescriptorFactory.fromResource(R.drawable.number_13);
+                icon[14] = BitmapDescriptorFactory.fromResource(R.drawable.number_14);
             }
         }
     }
@@ -301,9 +319,10 @@ public class PathGoogleMapActivity extends FragmentActivity implements
 
     // lisa add the marker no. j at the given latlng , (j ranges from 1 to no. of waypoints as 0 is souce/current locn )
     private void addMarkers(GoogleMap mMap, LatLng latlng , String name , int j ) {
+
         if (mMap != null) {
             mMap.addMarker(new MarkerOptions().position(latlng)
-                    .title(name));
+                    .title(name).icon(icon[j]));
 
         }
     }
