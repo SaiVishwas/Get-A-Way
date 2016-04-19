@@ -95,6 +95,8 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         places_list = (String)bundle.getSerializable("places_list");
 
         Log.e("waypoints: ", waypoints_);
+        Log.e("places : ", places_list );
+
 
        // set_up_markers(waypoints_ , places_list);
 /*
@@ -181,11 +183,11 @@ public class PathGoogleMapActivity extends FragmentActivity implements
 
                 String[] lat_lng = data[j].split(",");
 
-                Log.e(" check : " , i + "  :  " + lat_lng+"");
+                Log.e(" check : " , i + "  :  " +place_names[j]+"");
                 LatLng tmp = new LatLng(Double.parseDouble(lat_lng[0]),Double.parseDouble(lat_lng[1]) );
 
 
-                addMarkers(mMap,tmp,place_names[j],j);
+                addMarkers(mMap,tmp,place_names[j],i + 1);
 
             }
         }

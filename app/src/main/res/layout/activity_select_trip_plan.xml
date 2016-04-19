@@ -27,7 +27,7 @@ tools:context="india.collageapp.com.get_a_way.SelectTripPlan">
         android:layout_gravity="center_horizontal"
         android:checked="true"
         android:textSize="30dp"
-        android:textColor="#ffffff"
+        android:textColor="#048fa7"
         android:buttonTint="@color/black"/>
 
     <RadioButton
@@ -38,7 +38,7 @@ tools:context="india.collageapp.com.get_a_way.SelectTripPlan">
         android:layout_gravity="center_horizontal"
         android:checked="false"
         android:textSize="30dp"
-        android:textColor="#ffffff"
+        android:textColor="#048fa7"
         android:buttonTint="@color/black"/>
 
     <Button
