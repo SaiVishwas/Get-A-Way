@@ -86,7 +86,7 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
     {
         String[] list = {"restaurant","bank","atm","shopping_mall","gas_station","post_office","pharmacy","museum",
                         "police","hospital","cafe","bus_station","church","mosque","hindu_temple","movie_theater",
-                        "zoo","beauty_salon"};
+                        "zoo","beauty_salon","park"};
 
         places = Arrays.asList(list);
         places.contains("restaurant");
@@ -116,10 +116,7 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
             greeting = "Good Evening !!";
 
 
-        String name = "Sharvel";
-
-
-        questions[0] = greeting+"\nHey "+name+" !!! Where would you like to go ?";
+        questions[0] = greeting+"\nHey  !!! Where would you like to go ?";
         questions[1] = "How far do you want to travel ? (in Km)";
         questions[2] = "How much time do you have at hand(in minutes) ?";
 
@@ -131,6 +128,7 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
         boolean flag=true;
         b.setEnabled(false);
         ans = e.getText().toString();
+        e.setHint("");
         String ques = t1.getText().toString();
         i = Arrays.asList(questions).indexOf(ques);
         Log.d("INDEX",String.valueOf(i));
@@ -192,14 +190,19 @@ public class ChatBot extends AppCompatActivity implements LocationListener {
             if(valid)
             {
                 double distance = Double.parseDouble(ans);
-                if(distance != 0) {
+                if(distance > 0) {
                     distance *= 1000; // km into metres
                     answers[i] = String.valueOf(distance);
+                }
+                else if(distance == 0)
+                {
+                    e.setError("Enter a non zero value !");
+                    result = false;
                 }
                 else
                 {
                     //enter non zero distance
-                    e.setError("Enter a non zero value !");
+                    e.setError("Enter a positive value !");
                     result = false;
                 }
 

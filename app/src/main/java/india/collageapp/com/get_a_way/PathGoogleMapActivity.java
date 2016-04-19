@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -69,7 +70,7 @@ public class PathGoogleMapActivity extends FragmentActivity implements
     private int got_places_flag = 0;
     private static final int PERMISSION_REQUEST_CODE = 1;
     BitmapDescriptor[] icon ;
-
+    int dest;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -172,6 +173,7 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         Log.e("list : " , Arrays.toString(data));
         Log.e("w_o : " , Arrays.toString(w_o));
 
+        dest = w_o.length;
         if(w_o.length > 0) {
             for (int i = 0; i < w_o.length; ++i)
             {
@@ -517,11 +519,14 @@ public class PathGoogleMapActivity extends FragmentActivity implements
                     hr += (min/60);
                     min = min %60;
                 }
+                DecimalFormat df = new DecimalFormat();
+                df.setMaximumFractionDigits(2);
+
                 String h = (hr > 0)? String.valueOf(hr)+" hours " : "";
                 String m = (min > 0)? String.valueOf(min)+" mins" : "";
                 AlertDialog.Builder builder = new AlertDialog.Builder(PathGoogleMapActivity.this);
                 builder.setTitle("Travel Summary")
-                        .setMessage("No. of destination: " + routes.size() + "\n\nTravel Distance: " + distance+" km\n\nTravel Time: "+h+m+"\n")
+                        .setMessage("Travel Distance: " + df.format(distance) + " km\n\nTravel Time: " + h + m + "\n")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
