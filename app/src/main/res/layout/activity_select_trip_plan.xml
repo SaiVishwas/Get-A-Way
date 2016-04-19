@@ -7,6 +7,7 @@ android:paddingBottom="@dimen/activity_vertical_margin"
 android:paddingLeft="@dimen/activity_horizontal_margin"
 android:paddingRight="@dimen/activity_horizontal_margin"
 android:paddingTop="@dimen/activity_vertical_margin"
+android:background="@drawable/pic_3"
 tools:context="india.collageapp.com.get_a_way.SelectTripPlan">
 
 <RadioGroup
@@ -20,11 +21,14 @@ tools:context="india.collageapp.com.get_a_way.SelectTripPlan">
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Plan A New Trip"
+        android:layout_marginTop="10dp"
+        android:text="   Plan A New Trip   "
         android:id="@+id/radioButton1"
         android:layout_gravity="center_horizontal"
         android:checked="true"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:textColor="#ffffff"
+        android:buttonTint="@color/black"/>
 
     <RadioButton
         android:layout_width="wrap_content"
@@ -33,16 +37,20 @@ tools:context="india.collageapp.com.get_a_way.SelectTripPlan">
         android:id="@+id/radioButton2"
         android:layout_gravity="center_horizontal"
         android:checked="false"
-        android:textSize="30dp" />
-</RadioGroup>
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="GO"
-    android:id="@+id/goButton"
-    android:layout_alignBottom="@+id/radioGroup"
-    android:layout_gravity="center_horizontal"
-    android:background="#069070"
+        android:textSize="30dp"
+        android:textColor="#ffffff"
+        android:buttonTint="@color/black"/>
 
-    android:textColor="#ffffff" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GO"
+        android:id="@+id/goButton"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/round_home"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        android:textColor="@color/white" />
+</RadioGroup>
 </RelativeLayout>
