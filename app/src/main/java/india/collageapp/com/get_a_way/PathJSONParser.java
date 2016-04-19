@@ -25,10 +25,15 @@ public class PathJSONParser {
         JSONObject jDistance = null;
         JSONObject jDuration = null;
         JSONArray jSteps = null;
+        JSONArray jway = null;
         try {
             jRoutes = jObject.getJSONArray("routes");
+
             /** Traversing all routes */
             for (int i = 0; i < jRoutes.length(); i++) {
+                jway = ((JSONObject) jRoutes.get(i)).getJSONArray("waypoint_order");
+                Log.e("order : " , jway.toString());
+
                 jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
                 List<HashMap<String, String>> path = new ArrayList<HashMap<String, String>>();
 
@@ -90,6 +95,13 @@ public class PathJSONParser {
                     }
 
                 }
+
+                HashMap<String, String> order = new HashMap<String, String>();
+                order.put("waypoint_order", jway.toString()+ "");
+
+                path.add(order);
+
+
                 routes.add(path);
 
             }

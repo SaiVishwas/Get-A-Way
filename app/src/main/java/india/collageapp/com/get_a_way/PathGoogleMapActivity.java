@@ -31,13 +31,13 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import android.Manifest;
-
-
 
 /**
  * Created by sai on 10-03-2016.
@@ -61,6 +61,7 @@ public class PathGoogleMapActivity extends FragmentActivity implements
     final String TAG = "PathGoogleMapActivity";
     double current_latitude;
     double current_longitude ;
+    String way_order = "";
     String waypoints_ ;
     String places_list ;
     private int got_places_flag = 0;
@@ -88,9 +89,9 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         waypoints_ = (String)bundle.getSerializable("waypoints");
         places_list = (String)bundle.getSerializable("places_list");
 
-        Log.e("waypoints: " , waypoints_);
+        Log.e("waypoints: ", waypoints_);
 
-        set_up_markers(waypoints_ , places_list);
+       // set_up_markers(waypoints_ , places_list);
 /*
          Log.e("sel places : ", selectedPlaces_id.toString());
         if(selectedPlaces_id != null)
@@ -135,7 +136,7 @@ public class PathGoogleMapActivity extends FragmentActivity implements
 
 
     }
-
+/*
     private void set_up_markers(String places , String places_list)
     {
         String[] data = places.split("\\|");
@@ -153,7 +154,38 @@ public class PathGoogleMapActivity extends FragmentActivity implements
             }
         }
 
+    } */
+
+    private void set_up_markers(String places , String places_list , String order )
+    {
+        String[] data = places.split("\\|");
+        String[] place_names = places_list.split("\\|");
+        String[] x = order.split("\\[");
+        String[] y = x[1].split("\\]");
+
+        String[] w_o = y[0].split(",");
+
+        Log.e("list : " , Arrays.toString(data));
+        Log.e("w_o : " , Arrays.toString(w_o));
+
+        if(w_o.length > 0) {
+            for (int i = 0; i < w_o.length; ++i)
+            {
+                int j = Integer.parseInt(w_o[i]) + 1;
+
+                String[] lat_lng = data[j].split(",");
+
+                Log.e(" check : " , i + "  :  " + lat_lng+"");
+                LatLng tmp = new LatLng(Double.parseDouble(lat_lng[0]),Double.parseDouble(lat_lng[1]) );
+
+
+                addMarkers(mMap,tmp,place_names[j],j);
+
+            }
+        }
+
     }
+
 
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
@@ -174,7 +206,7 @@ public class PathGoogleMapActivity extends FragmentActivity implements
        //     selectedPlaces.add(place);
             Log.e("place name : ", place.getAddress() + "");
 
-            addMarkers(mMap,place);
+           // addMarkers(mMap,place);
 
             places.release();
          //   Log.e("sel len : ", selectedPlaces.size() + "");
@@ -267,7 +299,8 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         }
     }
 
-    private void addMarkers(GoogleMap mMap, LatLng latlng , String name) {
+    // lisa add the marker no. j at the given latlng , (j ranges from 1 to no. of waypoints as 0 is souce/current locn )
+    private void addMarkers(GoogleMap mMap, LatLng latlng , String name , int j ) {
         if (mMap != null) {
             mMap.addMarker(new MarkerOptions().position(latlng)
                     .title(name));
@@ -295,17 +328,15 @@ public class PathGoogleMapActivity extends FragmentActivity implements
     public void onConnectionSuspended(int i) {
         Log.e(LOG_TAG, "Google Places API connection suspended.");
     }
-    private ProgressDialog mDialog;
-    private class ReadTask extends AsyncTask<String, Void, String> {
 
+    private ProgressDialog mDialog;
+
+    private class ReadTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             mDialog = ProgressDialog.show(PathGoogleMapActivity.this, "Please wait...", "Drawing Route ...", true);
-        }
 
-        protected void onProgressUpdate(Void... progress) {
-            Log.d("PROGRESS", " progress async");
         }
 
         @Override
@@ -323,7 +354,6 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Log.d("PROGRESS", " post execute async");
             new ParserTask().execute(result);
         }
     }
@@ -354,6 +384,8 @@ public class PathGoogleMapActivity extends FragmentActivity implements
         protected void onPostExecute(List<List<HashMap<String, String>>> routes) {
             ArrayList<LatLng> points = null;
             PolylineOptions polyLineOptions = null;
+            String distance_ = "";
+            String duration = "";
 
 
             double distance =0.0,ld=0.0;
@@ -364,6 +396,9 @@ public class PathGoogleMapActivity extends FragmentActivity implements
             {
                 String[] dist;
                 String[] time;
+
+                Log.d("order : " , routes.toString());
+
                 for (int i = 0; i < routes.size(); i++) {
                 //for (int i = 0; i < 1; i++) {
                     points = new ArrayList<LatLng>();
@@ -371,6 +406,10 @@ public class PathGoogleMapActivity extends FragmentActivity implements
                     List<HashMap<String, String>> path = routes.get(i);
 
                     Log.e("Path len : " , path.size() + "");
+
+                    //Log.e("order : " , path.get("waypoint_order"));
+
+
 
                     for (int j = 0; j < path.size(); j++) {
                         HashMap<String, String> point = path.get(j);
@@ -422,16 +461,27 @@ public class PathGoogleMapActivity extends FragmentActivity implements
                                     lmin = Integer.parseInt(time[0]);
                                     min += lmin;
                                 }
+                                Log.e("Dur recd : ", value);
+
+                            }
+
+                            else if (x.equals("waypoint_order"))
+                            {
+                                way_order = value;
+                                Log.e("way_order : " , way_order);
                             }
                             else
                             {
                                 double lat = Double.parseDouble(point.get("lat"));
-                                double lng = Double.parseDouble(point.get("lng"));LatLng position = new LatLng(lat, lng);
+                                double lng = Double.parseDouble(point.get("lng"));
+                                LatLng position = new LatLng(lat, lng);
 
                                 points.add(position);
                             }
 
                         }
+
+
                     }
 
                     polyLineOptions.addAll(points);
@@ -466,7 +516,8 @@ public class PathGoogleMapActivity extends FragmentActivity implements
  //           googleMap.addPolyline(polyLineOptions);
             if(polyLineOptions!=null)
                 mMap.addPolyline(polyLineOptions);
-        }
+
+            set_up_markers(waypoints_ , places_list , way_order);        }
 
 
     }
