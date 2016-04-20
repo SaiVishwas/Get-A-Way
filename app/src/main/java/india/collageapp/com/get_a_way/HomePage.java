@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,13 +15,14 @@ public class HomePage extends AppCompatActivity {
     private static Button btn_places;
     private static Button btn_maps;
     private static Button btn_chatbot;
-
+    String userid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         // onClickButtonListner();
-
+        userid = getIntent().getStringExtra("userid");
+        Log.d("USERID",userid);
         btn_places=(Button)findViewById(R.id.button1);
         btn_places.setOnClickListener(new View.OnClickListener() {
                                           @Override
@@ -36,6 +38,7 @@ public class HomePage extends AppCompatActivity {
                                           @Override
                                           public void onClick(View v) {
                                               Intent intent = new Intent(HomePage.this,SelectTripPlan.class);
+                                              intent.putExtra("userid", userid);
                                               startActivity(intent);
                                           }
                                       }

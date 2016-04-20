@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncResponse{
     @InjectView(R.id.input_password) EditText _passwordText;
     @InjectView(R.id.btn_login) Button _loginButton;
     @InjectView(R.id.link_signup) TextView _signupLink;
+    String userid = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncResponse{
         progressDialog.show();
 
         String email = _emailText.getText().toString();
+        userid = email;
         String password = _passwordText.getText().toString();
 
         String type = "login";
@@ -156,6 +158,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncResponse{
                 // By default we just finish the Activity and log them in automatically
                               // this.finish();
                 Intent p = new Intent(LoginActivity.this, HomePage.class);
+                p.putExtra("userid", userid);
                 p.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(p);
             }
@@ -181,6 +184,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncResponse{
         result="sloNetwork";
         _loginButton.setEnabled(true);
         Intent p = new Intent(LoginActivity.this, HomePage.class);
+        p.putExtra("userid", userid);
         p.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(p);
 

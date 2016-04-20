@@ -37,12 +37,13 @@ public class SelectTripPlan extends AppCompatActivity implements TripList.MyDial
     String[] tripnames ;
     String[] places;
     String[] location;
+    String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_trip_plan);
-
+        userid = getIntent().getStringExtra("userid");
         planGroup=(RadioGroup)findViewById(R.id.radioGroup);
 
         goButton=(Button)findViewById(R.id.goButton);
@@ -76,7 +77,7 @@ public class SelectTripPlan extends AppCompatActivity implements TripList.MyDial
                 Log.d("RESULT", arg0[0]);
                 //String username = (String)arg0[0];
                 //String password = (String)arg0[1];
-                String link = "http://travelapp.freevar.com/getTrip.php?username=nagu9876@gmail.com";
+                String link = "http://travelapp.freevar.com/getTrip.php?username="+userid;
                 Log.d("RESULT",link);
                 URL url = new URL(link);
                 HttpClient client = new DefaultHttpClient();
