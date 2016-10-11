@@ -1,7 +1,9 @@
 # Get_A_Way
 
 This was a project done as a part of the Software Engineering course (13CS354) during the 6th semester of BE in CSE . 
-
+  
+  While on a trip, have you ever encountered a vehicle breakdown or any other emergency (food/medical)?
+  
   Our project aims at providing a user-friendly interface to avail these amenities from the sellers nearest to the user, 
 while on a tour. We also aim at enriching the user’s experience by suggesting nearby places of attraction. Our main focus is 
 on tourism in Karnataka. Our project also aims at providing the following features:
